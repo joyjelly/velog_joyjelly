@@ -1,9 +1,10 @@
 name: Update Blog Posts
+  
 
 on:
   push:
-    branches:
-      - main
+      branches:
+        - master  # 또는 워크플로우를 트리거하고 싶은 브랜치 이름
   schedule:
     - cron: '0 0 * * *'  # 매일 자정에 실행
 
@@ -15,6 +16,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git push https://${{secrets.GH_PAT_JOYJELLY}}@github.com/joyjelly/velog_joyjelly.git
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -24,16 +31,5 @@ jobs:
       run: |
         pip install feedparser gitpython
 
-    - name: Configure Git user
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
     - name: Run script
       run: python scripts/update_blog.py
-
-    - name: Commit and Push changes
-      run: |
-        git add .
-        git commit -m 'Update blog posts'
-        git push https://${{ secrets.GH_PAT_JOYJELLY }}@github.com/joyjelly/velog_joyjelly.git
