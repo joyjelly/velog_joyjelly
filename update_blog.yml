@@ -3,7 +3,7 @@ name: Update Blog Posts
 on:
   push:
     branches:
-      - main  # main 브랜치로 변경
+      - main
   schedule:
     - cron: '0 0 * * *'  # 매일 자정에 실행
 
