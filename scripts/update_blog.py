@@ -25,6 +25,9 @@ repo.git.config('user.email', 'github-actions[bot]@users.noreply.github.com')
 # RSS 피드 파싱
 feed = feedparser.parse(rss_url)
 
+# 변경 사항이 있는지 확인하는 플래그
+has_changes = False
+
 # 각 글을 파일로 저장하고 커밋
 for entry in feed.entries:
     # 파일 이름에서 유효하지 않은 문자 제거 또는 대체
@@ -40,9 +43,13 @@ for entry in feed.entries:
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(entry.description)  # 글 내용을 파일에 작성
 
-        # 깃허브 커밋
+        # 깃허브에 파일 추가 (하지만 아직 푸시하지 않음)
         repo.git.add(file_path)
-        repo.git.commit('-m', f'Add post: {entry.title}')
+        has_changes = True  # 변경 사항이 발생했음을 표시
 
-# 변경 사항을 깃허브에 푸시
-repo.git.push()
+# 모든 파일을 커밋한 후 한 번에 커밋과 푸시
+if has_changes:
+    repo.git.commit('-m', 'Add multiple posts from Velog')
+    repo.git.push()
+else:
+    print("No changes to commit.")
