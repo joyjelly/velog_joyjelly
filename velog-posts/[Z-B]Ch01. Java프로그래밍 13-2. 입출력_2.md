@@ -1,0 +1,9 @@
+<h1 id="13-2-입출력_2">13-2. 입출력_2</h1>
+<h2 id="1-파일-출력">1. 파일 출력</h2>
+<p>입출력 방식 중 파일로 출력하는 방법
+FileOutputStream ....
+FileWriter ...
+PrintWriter...</p>
+<h2 id="2-파일-입력">2. 파일 입력</h2>
+<p>FileInputSteream...
+BufferedReader...</p>
